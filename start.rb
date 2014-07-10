@@ -4,12 +4,16 @@ require './lib/settings'
 begin
   require './init'
 rescue LoadError
-  # 設定ファイルが存在しない場合はデフォルト値を使う
 end
+require './lib/sora'
 
 # TODO: エンコーディングを変更可能にする
 $stdout.set_encoding(Encoding::UTF_8)
 $stderr.set_encoding(Encoding::UTF_8)
 
 module Sora
+  sora = Sora.new
+  interface = $SET.interface.new(sora)
+  sora.interface = interface
+  interface.main
 end
