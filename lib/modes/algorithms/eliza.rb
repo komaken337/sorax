@@ -68,7 +68,7 @@ module Sora
 
     # ”z—ñ‚Ì—v‘f‚ğˆê‚Â–³ìˆ×’Šo‚·‚é
     def spot(array)
-      return array[Math.random(array.size)]
+      return array[rand(array.size)]
     end
   end
 end
