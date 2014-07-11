@@ -23,5 +23,12 @@ module Sora
     def on_sora_message(message)
       print(message[:from], "> ", message[:string], "\n")
     end
+
+    # ユーザに入力を求め，結果を返却するメソッド
+    # PluginやModeから，対話的な動作が必要な際に呼び出される
+    def dialogue(prompt)
+      print(prompt)
+      return gets.chomp
+    end
   end
 end

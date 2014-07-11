@@ -17,6 +17,7 @@ module Sora
       # 登録されたPluginのインスタンスを生成し，ハッシュに格納する
       $SET.each_plugin do |name, plugin|
         @plugins[name] = plugin.new
+        @plugins[name].sora = self
       end
 
       # Modeをデフォルトのものに変更
@@ -38,6 +39,8 @@ module Sora
     def change_mode(mode)
       if @modes.include?(mode)
         @current_mode = @modes[mode].new
+        @current_mode.interface = @interface
+        @current_mode.sora = self
       else
         raise "#{mode} not found."
       end
@@ -49,12 +52,6 @@ module Sora
       end
 
       @current_mode.on_user_message(message)
-
-      sora_message = {}
-      sora_message[:from] = :Sora
-      sora_message[:string] = message[:string]
-      sora_message[:time] = Time.now
-      on_sora_message(sora_message)
     end
 
     def on_sora_message(message)
@@ -63,8 +60,6 @@ module Sora
       @plugins.each do |name, plugin|
         plugin.on_sora_message(message)
       end
-
-      @current_mode.on_sora_message(message)
     end
   end
 end

@@ -8,6 +8,7 @@ module Sora
       super(sora)
       @user_name = nil
       $SET.default(:ConsoleInterface, :default_name, "User")
+      $SET.default(:ConsoleInterface, :dont_ask_name, false)
     end
 
     def main
@@ -30,6 +31,7 @@ module Sora
     end
 
     def ask_user_name
+      return $SET[:ConsoleInterface, :default_name] if $SET[:ConsoleInterface, :dont_ask_name]
       print("Your name?> ")
       name = gets.chomp
       if name =~ /^\s*$/

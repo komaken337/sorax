@@ -1,11 +1,12 @@
 # -*- coding: shift_jis -*-
 
+require './lib/sora'
+require './lib/utils'
 require './lib/settings'
 begin
   require './init'
 rescue LoadError
 end
-require './lib/sora'
 
 # オプションの既定値を設定
 $SET.default(:external_encoding, "UTF-8")

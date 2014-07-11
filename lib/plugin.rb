@@ -2,7 +2,10 @@
 
 module Sora
   class Plugin
+    attr_writer :sora
+
     def initialize
+      @sora = nil
     end
 
     def on_user_message(message)

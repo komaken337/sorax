@@ -68,7 +68,7 @@ module Sora
     # p1に識別子名（Interface名，Mode名，Plugin名など）を，p2にプロパティ名を指定する
     # p2がnilの場合グローバルプロパティp1を参照する
     def [](p1, p2 = nil)
-      if p2
+      if !p2.nil?
         if !@properties.include?(p1)
           warn("warning: 識別子#{p1}はプロパティを持っていません")
           return nil
@@ -89,7 +89,7 @@ module Sora
     # p3がnilの場合グローバルプロパティp1に値p2をセット
     # さもなくば，識別子p1のプロパティp2に値p3をセット
     def []=(p1, p2, p3 = nil)
-      if p3
+      if !p3.nil?
         @properties[p1] = {} if !@properties.include?(p1)
         @properties[p1][p2] = p3
       else  # グローバルプロパティを設定する
@@ -99,15 +99,15 @@ module Sora
 
     # プロパティがnilの場合のみ値を設定する
     def default(p1, p2, p3 = nil)
-      if p3
+      if !p3.nil?
         if !@properties.include?(p1)
           @properties[p1] = {}
           @properties[p1][p2] = p3
-        elsif !@properties[p1].include?(p2) || !@properties[p1][p2]
+        elsif !@properties[p1].include?(p2) || @properties[p1][p2].nil?
           @properties[p1][p2] = p3
         end
       else  # グローバルプロパティを設定する
-        if !@global_properties.include?(p1) || !@global_properties[p1]
+        if !@global_properties.include?(p1) || @global_properties[p1].nil?
           @global_properties[p1] = p2
         end
       end
