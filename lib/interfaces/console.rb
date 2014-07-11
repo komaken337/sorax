@@ -1,6 +1,5 @@
 # -*- coding: shift_jis -*-
 
-require 'readline'
 require './lib/interface'
 
 module Sora
@@ -15,7 +14,8 @@ module Sora
       @user_name = ask_user_name
 
       while true
-        string = Readline.readline(@user_name + "> ", true).encode
+        print(@user_name, "> ")
+        string = gets.chomp
         if !string  # Ctrl+D
           printf("\n")
           exit
@@ -30,7 +30,8 @@ module Sora
     end
 
     def ask_user_name
-      name = Readline.readline("Your name> ").encode
+      print("Your name?> ")
+      name = gets.chomp
       if name =~ /^\s*$/
         name = $SET[:ConsoleInterface, :default_name]
         puts("デフォルト名#{name}を使用します")
