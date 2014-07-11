@@ -48,11 +48,13 @@ module Sora
         plugin.on_user_message(message)
       end
 
-      on_sora_message({\
-                        from: :Sora,\
-                        string: message[:string],\
-                        time: Time.now,\
-                      })
+      @current_mode.on_user_message(message)
+
+      sora_message = {}
+      sora_message[:from] = :Sora
+      sora_message[:string] = message[:string]
+      sora_message[:time] = Time.now
+      on_sora_message(sora_message)
     end
 
     def on_sora_message(message)
@@ -61,6 +63,8 @@ module Sora
       @plugins.each do |name, plugin|
         plugin.on_sora_message(message)
       end
+
+      @current_mode.on_sora_message(message)
     end
   end
 end

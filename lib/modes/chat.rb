@@ -1,8 +1,11 @@
 # -*- coding: shift_jis -*-
 
+require './lib/mode'
+
 module Sora
-  class Mode
+  class ChatMode < Mode
     def initialize
+      $SET[:ChatMode, :algorithm] = :Algorithm
     end
 
     def on_user_message(message)

@@ -2,7 +2,7 @@
 
 # Interface‚Ì“o˜^
 $SET.register_interface(:Interface, "./lib/interface")
-$SET.register_interface(:Console, "./lib/interfaces/console")
+$SET.register_interface(:ConsoleInterface, "./lib/interfaces/console")
 
 # Mode‚Ì“o˜^
 $SET.register_mode(:Mode, "./lib/mode")
@@ -12,5 +12,8 @@ $SET.register_plugin(:Plugin, "./lib/plugin")
 $SET.register_plugin(:MessageFormatterPlugin, "./lib/plugins/message_formatter")
 
 #
-$SET.interface = :Console
+$SET[:external_encoding] = "UTF-8"
+$SET.interface = :ConsoleInterface
 $SET.default_mode = :Mode
+$SET[:MessageFormatterPlugin, :message_format] = "%f‚Ì”­Œ¾: %s"
+$SET[:ConsoleInterface, :default_name] = "Markov"

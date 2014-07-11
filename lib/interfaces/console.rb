@@ -1,33 +1,40 @@
 # -*- coding: shift_jis -*-
 
+require 'readline'
 require './lib/interface'
 
 module Sora
-  class Console < Interface
+  class ConsoleInterface < Interface
     def initialize(sora)
       super(sora)
       @user_name = nil
+      $SET.default(:ConsoleInterface, :default_name, "User")
     end
 
     def main
       @user_name = ask_user_name
 
       while true
-        print(@user_name, "> ")
-        user_message = gets.chomp
+        string = Readline.readline(@user_name + "> ", true).encode
+        if !string  # Ctrl+D
+          printf("\n")
+          exit
+        end
 
-        @sora.on_user_message({\
-                                from: "User",\
-                                string: user_message,\
-                                time: Time.now,\
-                              })
+        user_message = {}
+        user_message[:from] = "User"
+        user_message[:string] = string
+        user_message[:time] = Time.now
+        @sora.on_user_message(user_message)
       end
     end
 
     def ask_user_name
-      print("Your name?> ")
-      name = gets.chomp
-      name = "User" if name =~ /^\s*$/
+      name = Readline.readline("Your name> ").encode
+      if name =~ /^\s*$/
+        name = $SET[:ConsoleInterface, :default_name]
+        puts("デフォルト名#{name}を使用します")
+      end
       return name
     end
 
