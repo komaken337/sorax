@@ -8,7 +8,7 @@ module Sora
 
     def initialize
       @interface = nil  # 使用するインターフェースクラス(Class)
-      @modes = {}
+      @modes = []  # 登録したModeのidの配列
       @plugins = {}
       @default_mode = nil
       @global_properties = {}  # Sora全体で共通して使われるプロパティ
@@ -25,13 +25,28 @@ module Sora
     end
 
     def interface=(interface)
-      @interface = Settings.get_class(interface)
+      @interface = Utils::get_class(interface)
+    rescue LoadError => e
+      Utils::warn("failed to load interface class file(#{e.path.inspect})")
+    rescue NameError
+      Utils::warn("interface class(#{interface.inspect}) not found")
     end
 
     ##### Mode関連 #####
-    def register_mode(name, path)
-      ::Sora::autoload(name, path)
-      @modes[name] = Settings.get_class(name)
+    def register_mode(id, path)
+      ::Sora::autoload(id, path)
+      @modes << id
+    end
+
+    def initialize_mode(id)
+      if id.nil?
+        Utils::error("tried to initialize nil mode")
+      end
+      return Utils::get_class(id).new
+    rescue LoadError => e
+      Utils::error("failed to load mode class file(#{e.path.inspect})")
+    rescue NameError
+      Utils::error("mode class(#{id.inspect}) not found")
     end
 
     def default_mode
@@ -46,15 +61,15 @@ module Sora
 
     # Modeクラス(Class)をイテレートする
     def each_mode
-      @modes.each do |name, klass|
-        yield name, klass
+      @modes.each do |id|
+        yield id
       end
     end
 
     ##### Plugin関連 #####
     def register_plugin(name, path)
       require path
-      @plugins[name] = Settings.get_class(name)
+      @plugins[name] = Utils::get_class(name)
     end
 
     # Pluginクラス(Class)をイテレートする
@@ -111,12 +126,6 @@ module Sora
           @global_properties[p1] = p2
         end
       end
-    end
-  end
-
-  class << Settings
-    def get_class(name)
-      return ::Sora::const_get(name)
     end
   end
 end
