@@ -1,4 +1,4 @@
-# -*- coding: shift_jis -*-
+# -*- coding: cp932 -*-
 # TODO: 日付ごとにディレクトリを作成できるようにする
 #       %iのフォーマット指定（%03i→001など）を可能にする
 #       ハッシュ値をIDとして使えるようにする（%h？)
@@ -63,7 +63,7 @@ module Sora
       id = 1
       while true
         filename = pformat(base_string) {|p| id if p == :i}
-        break if !FileTest.exists?(filename)
+        break if !FileTest.exist?(filename)
         id += 1
       end
       return filename
