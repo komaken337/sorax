@@ -16,5 +16,10 @@ module Sora
 
     def on_event(event)
     end
+
+    # SoraのPluginインスタンスを取得するための簡易表記用メソッド
+    def plugin(id)
+      return @sora.plugin(id)
+    end
   end
 end

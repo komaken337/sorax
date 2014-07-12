@@ -29,7 +29,11 @@ module Sora
     end
 
     def plugin(name)
-      return @plugins[name]
+      if @plugins.include?(name)
+        return @plugins[name]
+      else
+        Utils::error("requested plugin(#{name.inspect}) is not registered")
+      end
     end
 
     def name

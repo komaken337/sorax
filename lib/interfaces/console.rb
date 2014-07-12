@@ -22,6 +22,8 @@ module Sora
           exit
         end
 
+        next if handle_command(string)
+
         user_message = {}
         user_message[:from] = "User"
         user_message[:string] = string
@@ -41,9 +43,21 @@ module Sora
       return name
     end
 
+    def handle_command(string)
+      case plugin(:CommandParserPlugin).parse(string)
+      when :exit
+        exit  # FIXME: 終了処理を行う
+      when :chmod
+        # FIXME: モード変更処理
+      when :not_command
+        return false
+      end
+      return true
+    end
+
     # Soraが発言したいときに呼び出すメソッド
     def on_sora_message(message)
-      puts(@sora.plugin(:MessageFormatterPlugin).format(message))
+      puts(plugin(:MessageFormatterPlugin).format(message))
     end
   end
 end

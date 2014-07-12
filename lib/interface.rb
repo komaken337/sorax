@@ -30,5 +30,10 @@ module Sora
       print(prompt)
       return gets.chomp
     end
+
+    # SoraのPluginインスタンスを取得するための簡易表記用メソッド
+    def plugin(id)
+      return @sora.plugin(id)
+    end
   end
 end

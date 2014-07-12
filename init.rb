@@ -11,6 +11,8 @@ $SET.register_mode(:ChatMode, "./lib/modes/chat")
 # Plugin‚Ì“o˜^
 $SET.register_plugin(:Plugin, "./lib/plugin")
 $SET.register_plugin(:MessageFormatterPlugin, "./lib/plugins/message_formatter")
+$SET.register_plugin(:CommandParserPlugin, "./lib/plugins/command_parser")
+$SET.register_plugin(:LogKeeperPlugin, "./lib/plugins/log_keeper")
 
 #
 $SET[:external_encoding] = "UTF-8"

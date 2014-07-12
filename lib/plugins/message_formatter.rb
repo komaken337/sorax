@@ -1,9 +1,12 @@
 # -*- coding: shift_jis -*-
 
 require './lib/plugin'
+require './lib/mixin/pformat'
 
 module Sora
   class MessageFormatterPlugin < Plugin
+    include PFormat
+
     def initialize
       super
       # プロパティのデフォルト値を設定
@@ -14,19 +17,19 @@ module Sora
     # %f: 送信者の名前
     # %s: メッセージの内容
     # %t: 送信時刻
-    def format(message, fmt = $SET[:MessageFormatterPlugin, :message_format])
-      result = fmt.gsub(/%(.)/) do
-        case $1
-        when "f"
+    def format(message, fmt = $SET[:MessageFormatterPlugin, :message_format], time_fmt = nil)
+      result = pformat(fmt) do |p|
+        case p
+        when :f
           message[:from]
-        when "s"
+        when :s
           message[:string]
-        when "t"
-          format_time(message[:time])
-        when "%"
-          "%"
-        else
-          ""
+        when :t
+          if time_fmt
+            format_time(message[:time], time_fmt)
+          else
+            format_time(message[:time])
+          end
         end
       end
       return result
