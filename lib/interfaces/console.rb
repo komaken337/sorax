@@ -15,8 +15,7 @@ module Sora
       @user_name = ask_user_name
 
       while true
-        print(@user_name, "> ")
-        string = gets.chomp
+        string = prompt_gets(@user_name, "> ").chomp
         if !string  # Ctrl+D
           printf("\n")
           exit
@@ -34,13 +33,18 @@ module Sora
 
     def ask_user_name
       return $SET[:ConsoleInterface, :default_name] if $SET[:ConsoleInterface, :dont_ask_name]
-      print("Your name?> ")
-      name = gets.chomp
+      name = prompt_gets("Your name?> ").chomp
       if name =~ /^\s*$/
         name = $SET[:ConsoleInterface, :default_name]
         puts("デフォルト名#{name}を使用します")
       end
       return name
+    end
+
+    # プロンプトを表示してユーザの入力を求める
+    def prompt_gets(*args)
+      print(*args)
+      return gets
     end
 
     def handle_command(string)
@@ -60,4 +64,24 @@ module Sora
       puts(plugin(:MessageFormatterPlugin).format(message))
     end
   end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end

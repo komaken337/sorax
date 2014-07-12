@@ -2,6 +2,7 @@
 
 # Interface‚Ì“o˜^
 $SET.register_interface(:ConsoleInterface, "./lib/interfaces/console")
+$SET.register_interface(:ReadlineInterface, "./lib/interfaces/readline")
 
 # Mode‚Ì“o˜^
 $SET.register_mode(:ChatMode, "./lib/modes/chat")
@@ -13,7 +14,7 @@ $SET.register_plugin(:LogKeeperPlugin, "./lib/plugins/log_keeper")
 $SET.register_plugin(:MeCabParserPlugin, "./lib/plugins/mecab_parser")
 
 $SET[:external_encoding] = "UTF-8"
-$SET.interface = :ConsoleInterface
+$SET.interface = :ReadlineInterface
 $SET.default_mode = :ChatMode
 $SET[:ConsoleInterface, :dont_ask_name] = true
 $SET[:ChatMode, :algorithm] = [:ElizaAlgorithm, "./lib/modes/algorithms/eliza"]
